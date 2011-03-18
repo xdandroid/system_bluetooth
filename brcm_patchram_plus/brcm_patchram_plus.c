@@ -852,7 +852,7 @@ main (int argc, char **argv)
     proc_sco_setting();
     //proc_comfort_noise_setting();
     //proc_coexistence_setting();
-    proc_supported_features_setting();
+    //proc_supported_features_setting();
 /* End of TAG */
 
 	if (enable_hci) {
