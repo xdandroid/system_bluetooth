@@ -732,7 +732,7 @@ proc_enable_hci()
 	return;
 }
 
-/* TAG JB 03/11/2011 : Ensure proper reset of BCM moduel via power down/up sequence */
+/* TAG JB 03/11/2011 : Ensure proper reset of BCM module via power down/up sequence */
 void
 reset_bt()
 {
@@ -767,15 +767,23 @@ reset_bt()
 }
 /* End of TAG */
 
+#define DOT_27_BDADDR_PATH "/sys/module/board_htcraphael_rfkill/parameters/bdaddr"
+#define DOT_35_BDADDR_PATH "/sys/devices/platform/msm7200a_rfkill/bdaddr"
+
 void
 read_default_bdaddr()
 {
 	int sz;
 	int fd;
-/* TAG JB 03/11/2011 : Read BDADDR from rfkill (who reads bdaddr from smem)
+/* TAG JB 03/11/2011 : Read BDADDR from rfkill (which reads bdaddr from smem)
  * Might be removed if we can use the ro.bt.bdaddr_path property instead. More clean
  */
-	char path[PROPERTY_VALUE_MAX] = "/sys/module/board_htcraphael_rfkill/parameters/bdaddr";
+	char path[PROPERTY_VALUE_MAX];
+	if (access(DOT_27_BDADDR_PATH, F_OK) == 0) {
+		snprintf(path, PROPERTY_VALUE_MAX, "%s", DOT_27_BDADDR_PATH);
+	} else {
+		snprintf(path, PROPERTY_VALUE_MAX, "%s", DOT_35_BDADDR_PATH);
+	}
 /* End of TAG */
 	char bdaddr[18];
 
